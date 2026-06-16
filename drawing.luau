@@ -9,18 +9,24 @@ local Fonts = {
 }
 
 local function getDrawingParent()
-    local ok, players = pcall(function()
+    local ok, cg = pcall(function()
+        return game:GetService("CoreGui")
+    end)
+    if ok and cg then
+        return cg
+    end
+    local ok2, players = pcall(function()
         return game:GetService("Players")
     end)
-    if ok and players and players.LocalPlayer then
-        local ok2, pg = pcall(function()
+    if ok2 and players and players.LocalPlayer then
+        local ok3, pg = pcall(function()
             return players.LocalPlayer:WaitForChild("PlayerGui", 5)
         end)
-        if ok2 and pg then
+        if ok3 and pg then
             return pg
         end
     end
-    return gethui()
+    return nil
 end
 
 local UI = Instance.new("ScreenGui")
